@@ -1,3 +1,4 @@
+// let fetchedData = {};
 let items = [];
 let itemsData = {};
 let itemUrl = '';
@@ -15,55 +16,79 @@ let itemColor = '';
 
 const fetchBaseUrl = "https://pokeapi.co/api/v2/pokemon";
 let fetchPath = '';
+let fetchUrl = '';
 
 function init() {
-    fetchItems(6);
+    fetchItems(16);
 }
 
-async function fetchItems(renderQty) {
-    fetchPath = '/?limit=' + renderQty + '&offset=0'
-    let response = await fetch(fetchBaseUrl + fetchPath);
+async function fetchDataFromUrl(fetchUrl) {
+    let response = await fetch(fetchUrl);
     let fetchedData = await response.json();
-    if(fetchedData) {
-        items = fetchedData.results;
-        console.log(items);
-    }
-    renderListing();
+    // console.log(fetchedData);
+    return fetchedData;
 }
 
-async function renderListing() {
+async function renderListing(items) {
     let listingRef = document.getElementById('listing');
     listingRef.innerHTML = '';
     if(items) {
         for (let i = 0; i < items.length; i++) {
-            itemUrl = items[i].url;
-            // console.log(itemUrl);
-            await fetchItemData(itemUrl);
-            // console.log(itemName);
-            listingRef.innerHTML += getListingItemTemplate();
+            fetchUrl = items[i].url;
+            itemData = await fetchItemData(fetchUrl);
+            let speciesData = await fetchSpeciesData(itemData.species.url);
+            listingRef.innerHTML += getListingItemTemplate(i, itemData, speciesData);
+            renderTypes(i, itemData.types);
         }
     }
 }
 
-async function fetchItemData(itemUrl) {
-    let response = await fetch(itemUrl);
-    let fetchedData = await response.json();
-    // console.log(fetchedData);
-    if(fetchedData) {
-        itemData = fetchedData;
-        setItemProps(itemData);
+async function renderTypes(i, types) {
+    let typesWrapperRef = document.getElementById('typesWrapper-' + i);
+    typesWrapperRef.innerHTML = '';
+    if(types) {
+        for (let i = 0; i < types.length; i++) {
+            fetchUrl = types[i].type.url;
+            let typesData = await fetchItemData(fetchUrl);
+            typesWrapperRef.innerHTML += getTypesTemplate(i, typesData);
+        }
     }
 }
 
-async function setItemProps(itemData) {
-    itemID = itemData.id;
-    itemName = itemData.name;
-    itemImg = itemData.sprites.front_default;
-    itemHeight = itemData.height;
-    itemWeight = itemData.weight;
-    itemExperience = itemData.base_experience;
-    itemSpecies = itemData.species.name;
-    itemTypes = itemData.types;
-    itemAbilites = itemData.abilities;
-    itemColor = '';
+
+
+async function fetchItems(renderQty) {
+    fetchPath = '/?limit=' + renderQty + '&offset=0'
+    fetchUrl = fetchBaseUrl + fetchPath;
+    let fetchedData = await fetchDataFromUrl(fetchUrl);
+    if(fetchedData) {
+        items = fetchedData.results;
+        // console.log(items);
+    }
+    renderListing(items);
+}
+
+async function fetchItemData(fetchUrl) {
+    let fetchedData = await fetchDataFromUrl(fetchUrl);
+    if(fetchedData) {
+        return fetchedData;
+    }
+}
+
+async function fetchSpeciesData(fetchUrl) {
+    let fetchedData = await fetchDataFromUrl(fetchUrl);
+    if(fetchedData) {
+        return fetchedData;
+    }
+}
+
+async function fetchTypesData(fetchUrl) {
+    let fetchedData = await fetchDataFromUrl(fetchUrl);
+    if(fetchedData) {
+        return fetchedData;
+    }
+}
+
+function firstLetterUppercase(word) {
+    return word.charAt(0).toUpperCase() + word.substring(1);
 }

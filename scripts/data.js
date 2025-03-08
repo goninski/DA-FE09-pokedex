@@ -1,51 +1,75 @@
-const FETCH_URL = "https://goninski-test-default-rtdb.europe-west1.firebasedatabase.app/";
-
-let path = "/food";
-
-function initData() {
-    loadData(path);
-    // putData(path, {"name": "Apple", "type": "fruit"});
-    // putData(path, {"name": "Banana", "type": "fruit"});
-    // putData(path, {"name": "Lemon", "type": "fruit"});
-}
-
-async function loadData(path) {
-    let response = await fetch(FETCH_URL + path + ".json");
-    dataObj = await response.json();
-    console.log(dataObj);    
-}
-
-async function putData(path, data={}) {
-    let response = await fetch(FETCH_URL + path + ".json",{
-        method: "PUT",
-        header: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-    });
-    dataObj = await response.json();
-    console.log(dataObj);    
-}
-
-async function postData(path, data={}) {
-    let response = await fetch(FETCH_URL + path + ".json",{
-        method: "POST",
-        header: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-    });
-    let responseToJson = await response.json();
-    console.log(responseToJson);    
-}
-
-async function deleteData(path="x") {
-    let response = await fetch(FETCH_URL + path + ".json",{
-        method: "DELETE",
-    });
-    dataObj = await response.json();
-}
-
-function deleteAllData(path="") {
-    deleteData(path);
-}
+let typeColors =
+[
+    {
+        "type": "normal",
+        "color": "A8A77A"
+    },
+    {
+        "type": "fire",
+        "color": "EE8130"
+    },
+    {
+        "type": "water",
+        "color": "6390F0"
+    },
+    {
+        "type": "grass",
+        "color": "7AC74F"
+    },
+    {
+        "type": "electric",
+        "color": "F7D02C"
+    },
+    {
+        "type": "ice",
+        "color": "96D9D6"
+    },
+    {
+        "type": "fighting",
+        "color": "C22E28"
+    },
+    {
+        "type": "poison",
+        "color": "A33EA1"
+    },
+    {
+        "type": "ground",
+        "color": "E2BF65"
+    },
+    {
+        "type": "flying",
+        "color": "A98FF3"
+    },
+    {
+        "type": "psychic",
+        "color": "F95587"
+    },
+    {
+        "type": "bug",
+        "color": "A6B91A"
+    },
+    {
+        "type": "rock",
+        "color": "B6A136"
+    },
+    {
+        "type": "ghost",
+        "color": "735797"
+    },
+    {
+        "type": "dragon",
+        "color": "6F35FC"
+    },
+    {
+        "type": "dark",
+        "color": "705746"
+    },
+    {
+        "type": "steel",
+        "color": "B7B7CE"
+    },
+    {
+        "type": "fairy",
+        "color": "D685AD"
+    }
+]

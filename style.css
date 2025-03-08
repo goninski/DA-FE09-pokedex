@@ -33,40 +33,58 @@
 
     --clr-text: white;
     --clr-hd: black;
-    --bg-page: #333;
+    --bg-page: #000;
+    --clr-primary: #ef5350;
 }
 
 header {
-    background-color: #444;;
+    background-color: var(--clr-primary);
 }
 footer {
-    background-color: #444;;
+    background-color: #444;
 }
 header .logo {
     height: 80px;
 }
 
 .card-wrapper {
-    border-radius: 9px;
+    border-radius: 15px;
     min-height: 100%;
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    background-color: #000;
+    /* border: solid 1px var(--clr-primary); */
 }
-.card-wrapper.card-landscape {
+.card.card-landscape {
     flex-direction: row;
 }
-.card-img-wrapper {
+.card .img-wrapper {
     aspect-ratio: 4/3;
     overflow: hidden;
+    padding: 16px;
 }
-.card-landscape .card-img-wrapper {
+.card.card-landscape .img-wrapper {
     aspect-ratio: 1;
-    width: 110px;
 }
-.card-img-wrapper img {
+.card .img-wrapper img {
 }
-.card-content-wrapper {
-    background-color: #777;
-    flex-grow: 1;
+.card .content-wrapper {
+    flex-shrink: 1.25;
+}
+.card .title {
+    display: inline;
+    margin-right: 16px;
+}
+.card .description {
+    font-size: 12px;
+}
+.card .type {
+    border-radius: 50%;
+    width: 48px;
+    height: 44px;
+}
+.card .type-icon {
+    object-fit: contain;
+    padding: 12px;
 }
