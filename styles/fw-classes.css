@@ -79,7 +79,10 @@
 }
 .img-cover {
     object-fit: cover;
+    height: 100%;
+    width: 100%;
     /* object-position: center; */
+    border-image-width: 0;
 }
 .img-contain {
     object-fit: contain;
@@ -243,7 +246,9 @@
 .pos-relative {
     position: relative;
 }
-
+.pos-absolute {
+    position: absolute;
+}
 .overlay-before:before {
     content: '';
     position: absolute;

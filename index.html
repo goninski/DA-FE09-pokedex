@@ -5,9 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="assets/favicon/favicon.ico">
-    <title>Title</title>
+    <title>Pokedex</title>
     <link rel="stylesheet" href="style.css">
-    <script src="scripts/data.js"></script>
     <script src="scripts/templates.js"></script>
     <script src="script.js"></script>
 </head>
@@ -17,10 +16,10 @@
     <header class="section">
        <div class="ct-container py-20">
             <div class="logo-wrapper flex-row gap align-center">
-                <a href="#"><img src="assets/img/logo-goninski.png" alt="logo-goninski" class="logo-goninski"></a>
-                <div class="logo-text flex">
-                    <h1 class="logo-title">Header Title</h1>
-                    <p class="my-0">Header Subtitle</p>
+                <a href="#" class="logo-wrapper"><img src="assets/img/logo-goninski.png" alt="logo-goninski" class="logo logo-goninski"></a>
+                <div class="logo-text flex-col">
+                    <h1 class="logo-title">Pokedex</h1>
+                    <!-- <p class="my-0">Header Subtitle</p> -->
                 </div>
             </div>
        </div>
@@ -28,9 +27,9 @@
 
     <main>
         <section>
-            <div class="ct-container grid-auto gap-20">
-            </div>
-            
+
+            <div id="listing" class="ct-container grid-auto gap-20"></div>
+           
         </section>
 
     </main>

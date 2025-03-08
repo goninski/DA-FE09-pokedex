@@ -1,4 +1,4 @@
-@import url("assets/fonts/open-sans/fonts.cc");
+@import url("assets/fonts/open-sans/fonts.css");
 @import url("styles/fw-presets.css");
 @import url("styles/fw-classes.css");
 /*@import url("node_modules\bootstrap\dist\css\bootstrap.min.css");*/
@@ -10,6 +10,7 @@
 
     --py-sec: 48px;
     --py-sec-sm: 24px;
+    --p-card: 16px;
 
     /* --ff-text: "Raleway"; */
     --ff-text: "Open Sans", serif;
@@ -35,3 +36,37 @@
     --bg-page: #333;
 }
 
+header {
+    background-color: #444;;
+}
+footer {
+    background-color: #444;;
+}
+header .logo {
+    height: 80px;
+}
+
+.card-wrapper {
+    border-radius: 9px;
+    min-height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+.card-wrapper.card-landscape {
+    flex-direction: row;
+}
+.card-img-wrapper {
+    aspect-ratio: 4/3;
+    overflow: hidden;
+}
+.card-landscape .card-img-wrapper {
+    aspect-ratio: 1;
+    width: 110px;
+}
+.card-img-wrapper img {
+}
+.card-content-wrapper {
+    background-color: #777;
+    flex-grow: 1;
+}

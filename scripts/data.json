@@ -1,0 +1,7 @@
+{
+"food": [
+    {"type": "fruit", "name": "Apple", "description": "Apple description..."},
+    {"type": "fruit", "name": "Banana", "description": "Banana description..."},
+    {"type": "fruit", "name": "Lemon", "description": "Lemon description..."}
+]
+}
