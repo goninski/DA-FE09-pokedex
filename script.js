@@ -19,24 +19,18 @@ let fetchPath = '';
 let fetchUrl = '';
 
 function init() {
-    fetchItems(16);
+    renderListing(16);
 }
 
-async function fetchDataFromUrl(fetchUrl) {
-    let response = await fetch(fetchUrl);
-    let fetchedData = await response.json();
-    // console.log(fetchedData);
-    return fetchedData;
-}
-
-async function renderListing(items) {
+async function renderListing(renderQty) {
+    items = await fetchItems(renderQty);
     let listingRef = document.getElementById('listing');
     listingRef.innerHTML = '';
     if(items) {
         for (let i = 0; i < items.length; i++) {
             fetchUrl = items[i].url;
-            itemData = await fetchItemData(fetchUrl);
-            let speciesData = await fetchSpeciesData(itemData.species.url);
+            itemData = await fetchData(fetchUrl);
+            let speciesData = await fetchData(itemData.species.url);
             listingRef.innerHTML += getListingItemTemplate(i, itemData, speciesData);
             renderTypes(i, itemData.types);
         }
@@ -49,44 +43,26 @@ async function renderTypes(i, types) {
     if(types) {
         for (let i = 0; i < types.length; i++) {
             fetchUrl = types[i].type.url;
-            let typesData = await fetchItemData(fetchUrl);
+            let typesData = await fetchData(fetchUrl);
             typesWrapperRef.innerHTML += getTypesTemplate(i, typesData);
         }
     }
 }
 
-
-
-async function fetchItems(renderQty) {
+function fetchItems(renderQty) {
     fetchPath = '/?limit=' + renderQty + '&offset=0'
     fetchUrl = fetchBaseUrl + fetchPath;
-    let fetchedData = await fetchDataFromUrl(fetchUrl);
-    if(fetchedData) {
-        items = fetchedData.results;
-        // console.log(items);
-    }
-    renderListing(items);
+    return fetchData(fetchUrl, 'results');
 }
 
-async function fetchItemData(fetchUrl) {
-    let fetchedData = await fetchDataFromUrl(fetchUrl);
-    if(fetchedData) {
-        return fetchedData;
+async function fetchData(fetchUrl, objProp = null) {
+    let response = await fetch(fetchUrl);
+    let fetchedData = await response.json();
+    // console.log(fetchedData);
+    if(objProp) {
+        return fetchedData[objProp];
     }
-}
-
-async function fetchSpeciesData(fetchUrl) {
-    let fetchedData = await fetchDataFromUrl(fetchUrl);
-    if(fetchedData) {
-        return fetchedData;
-    }
-}
-
-async function fetchTypesData(fetchUrl) {
-    let fetchedData = await fetchDataFromUrl(fetchUrl);
-    if(fetchedData) {
-        return fetchedData;
-    }
+    return fetchedData;
 }
 
 function firstLetterUppercase(word) {
