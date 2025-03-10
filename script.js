@@ -1,18 +1,18 @@
 // let fetchedData = {};
 let items = [];
-let itemsData = {};
-let itemUrl = '';
-let itemData = {};
-let itemName = '';
-let itemID = 0;
-let itemImg = '';
-let itemExperience = 0;
-let itemHeight = 0;
-let itemWeight = 0;
-let itemSpecies = '';
-let itemTypes = [];
-let itemAbilites = [];
-let itemColor = '';
+// let itemsData = {};
+// let itemUrl = '';
+// let itemData = {};
+// let itemName = '';
+// let itemID = 0;
+// let itemImg = '';
+// let itemExperience = 0;
+// let itemHeight = 0;
+// let itemWeight = 0;
+// let itemSpecies = '';
+// let itemTypes = [];
+// let itemAbilites = [];
+// let itemColor = '';
 
 const fetchBaseUrl = "https://pokeapi.co/api/v2/pokemon";
 let fetchPath = '';
@@ -28,17 +28,16 @@ async function renderListing(renderQty) {
     listingRef.innerHTML = '';
     if(items) {
         for (let i = 0; i < items.length; i++) {
-            fetchUrl = items[i].url;
-            itemData = await fetchData(fetchUrl);
+            itemData = await fetchData(items[i].url);
             let speciesData = await fetchData(itemData.species.url);
-            listingRef.innerHTML += getListingItemTemplate(i, itemData, speciesData);
-            renderTypes(i, itemData.types);
+            listingRef.innerHTML += getListingItemTemplate(i, itemData, speciesData, items.length);
+            renderTypes(i, itemData.types, 'cardItemTypesWrapper-' + i);
         }
     }
 }
 
-async function renderTypes(i, types) {
-    let typesWrapperRef = document.getElementById('typesWrapper-' + i);
+async function renderTypes(i, types, element) {
+    let typesWrapperRef = document.getElementById(element);
     typesWrapperRef.innerHTML = '';
     if(types) {
         for (let i = 0; i < types.length; i++) {
@@ -49,10 +48,43 @@ async function renderTypes(i, types) {
     }
 }
 
+function openItemModal(i) {
+    renderModalItem(i);
+}
+
+function previousModalItem(i, iLast) {
+    if(i == 0) {
+        i = iLast;
+    }
+    renderModalItem(i - 1);
+}
+
+function nextModalItem(i, iLast) {
+    if(i == iLast - 1) {
+        i = 0;
+    }
+    renderModalItem(i + 1);
+}
+
+async function renderModalItem(i) {
+    itemData = await fetchData(items[i].url);
+    let speciesData = await fetchData(itemData.species.url);
+    document.getElementById('itemModal').style = '';
+    document.getElementById('itemModalInner').innerHTML = getModalInnerTemplate(i, itemData, speciesData);
+    document.body.style = 'overflow: hidden;';
+    renderTypes(i, itemData.types, 'modalItemTypesWrapper-' + i);
+}
+
+function closeItemModal() {
+    document.getElementById('itemModal').style = 'display: none';
+    document.getElementById('itemModalInner').innerHTML = '';
+    document.body.style = '';
+}
+
 function fetchItems(renderQty) {
     fetchPath = '/?limit=' + renderQty + '&offset=0'
     fetchUrl = fetchBaseUrl + fetchPath;
-    return fetchData(fetchUrl, 'results');
+    return items = fetchData(fetchUrl, 'results');
 }
 
 async function fetchData(fetchUrl, objProp = null) {

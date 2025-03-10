@@ -47,7 +47,8 @@ header .logo {
     height: 80px;
 }
 
-.card-wrapper {
+
+.item-card {
     border-radius: 15px;
     min-height: 100%;
     overflow: hidden;
@@ -55,36 +56,64 @@ header .logo {
     flex-direction: column;
     background-color: #000;
     /* border: solid 1px var(--clr-primary); */
+    cursor: pointer;
 }
-.card.card-landscape {
+.item-card.card-landscape {
     flex-direction: row;
 }
-.card .img-wrapper {
+.item-card .img-wrapper {
     aspect-ratio: 4/3;
     overflow: hidden;
     padding: 16px;
 }
-.card.card-landscape .img-wrapper {
+.item-card.card-landscape .img-wrapper {
     aspect-ratio: 1;
 }
-.card .img-wrapper img {
-}
-.card .content-wrapper {
+.item-card .content-wrapper {
     flex-shrink: 1.25;
 }
-.card .title {
+.item-card .title {
     display: inline;
     margin-right: 16px;
 }
-.card .description {
+.item-card .description {
     font-size: 12px;
 }
-.card .type {
+.types-wrapper  .type {
     border-radius: 50%;
     width: 48px;
     height: 44px;
 }
-.card .type-icon {
+.types-wrapper .type-icon {
     object-fit: contain;
     padding: 12px;
+}
+
+
+.item-modal {
+    position: fixed;
+    top:0; bottom:0; left:0; right:0;
+    z-index: 999;
+    background-color: rgba(0,0,0,0.5);
+}
+.modal-inner {
+    z-index: inherit;
+    max-width: 480px;
+}
+.modal-close {
+    top: 16px;
+    right: 16px;
+    z-index: inherit;
+}
+.modal-item {
+    /* padding: 24px; */
+}
+.modal-nav-wrapper {
+    padding: 24px;
+}
+
+@media(max-width: 511px) {
+    .modal-inner {
+        max-width: 100%;
+    }
 }
