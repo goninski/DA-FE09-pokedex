@@ -30,7 +30,7 @@ async function renderListing(renderQty) {
         for (let i = 0; i < items.length; i++) {
             itemData = await fetchData(items[i].url);
             let speciesData = await fetchData(itemData.species.url);
-            listingRef.innerHTML += getListingItemTemplate(i, itemData, speciesData, items.length);
+            listingRef.innerHTML += getListingItemTemplate(i, itemData, speciesData);
             renderTypes(i, itemData.types, 'cardItemTypesWrapper-' + i);
         }
     }
@@ -53,24 +53,29 @@ function openItemModal(i) {
 }
 
 function previousModalItem(i, iLast) {
-    if(i == 0) {
+    if(i <= 0) {
         i = iLast;
+    } else {
+        i = i - 1;
     }
-    renderModalItem(i - 1);
+    renderModalItem(i);
 }
 
 function nextModalItem(i, iLast) {
     if(i == iLast - 1) {
         i = 0;
+    } else {
+        i++;
     }
-    renderModalItem(i + 1);
+    renderModalItem(i);
 }
 
 async function renderModalItem(i) {
+    // console.log('current i: ' + i);
     itemData = await fetchData(items[i].url);
     let speciesData = await fetchData(itemData.species.url);
     document.getElementById('itemModal').style = '';
-    document.getElementById('itemModalInner').innerHTML = getModalInnerTemplate(i, itemData, speciesData);
+    document.getElementById('itemModalInner').innerHTML = getModalInnerTemplate(i, itemData, speciesData, items.length - 1);
     document.body.style = 'overflow: hidden;';
     renderTypes(i, itemData.types, 'modalItemTypesWrapper-' + i);
 }

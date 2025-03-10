@@ -1,4 +1,4 @@
-function getListingItemTemplate(i, itemData, speciesData, iLast) {
+function getListingItemTemplate(i, itemData, speciesData) {
     let itemID = itemData.id;
     let itemName = firstLetterUppercase(itemData.name);
     let itemDescription = speciesData.flavor_text_entries[0].flavor_text;
@@ -6,7 +6,7 @@ function getListingItemTemplate(i, itemData, speciesData, iLast) {
     let itemColor = speciesData.color.name;
 
     return `
-        <div class="item-card card-landscape bg-${itemColor}" onclick="openItemModal(${i}, ${iLast})" style="background-color: ${itemColor}">
+        <div class="item-card card-landscape bg-${itemColor}" onclick="openItemModal(${i})" style="background-color: ${itemColor}">
             <div class="img-wrapper flex-col pos-relative">
                 <img src="${itemImg}" alt="" class="img-contain expand xpos-absolute">
             </div>
@@ -35,7 +35,7 @@ function getTypesTemplate(i, typesData) {
     `;
 }
 
-function getModalInnerTemplate(i, itemData, speciesData) {
+function getModalInnerTemplate(i, itemData, speciesData, iLast) {
     let itemID = itemData.id;
     let itemName = firstLetterUppercase(itemData.name);
     let itemDescription = speciesData.flavor_text_entries[0].flavor_text;
@@ -67,10 +67,10 @@ function getModalInnerTemplate(i, itemData, speciesData) {
             </div>
 
         <div class="modal-nav-wrapper flex-row gap center">
-            <button id="previousModalItem" class="modal-next-prev modal-prev" onclick="previousModalItem(${i})">
+            <button id="previousModalItem" class="modal-next-prev modal-prev" onclick="previousModalItem(${i}, ${iLast})">
                 <img src="assets/icons/google-arrow-back-ios-white.svg" alt="previous-icon">
             </button>
-            <button id="nextModalItem" class="modal-next-prev modal-next" onclick="nextModalItem(${i})">
+            <button id="nextModalItem" class="modal-next-prev modal-next" onclick="nextModalItem(${i}, ${iLast})">
                 <img src="assets/icons/google-arrow-forward-ios-white.svg" alt="next-icon">
             </button>
         </div>
