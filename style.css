@@ -112,6 +112,17 @@ header .logo {
     padding: 24px;
 }
 
+#loadMore {
+    padding: 16px 12px;
+    background-color: pink;
+    border-radius: 24px;
+    width: 280px;
+    align-self: center;
+}
+#loadMore:hover {
+    background-color: violet;
+}
+
 @media(max-width: 511px) {
     .modal-inner {
         max-width: 100%;

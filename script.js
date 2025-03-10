@@ -1,52 +1,114 @@
-// let fetchedData = {};
+let allItems = [];
+let totalItems = 0;
+let renderedItems = [];
 let items = [];
-// let itemsData = {};
-// let itemUrl = '';
-// let itemData = {};
-// let itemName = '';
-// let itemID = 0;
-// let itemImg = '';
-// let itemExperience = 0;
-// let itemHeight = 0;
-// let itemWeight = 0;
-// let itemSpecies = '';
-// let itemTypes = [];
-// let itemAbilites = [];
-// let itemColor = '';
+let buttonStyle = '';
 
 const fetchBaseUrl = "https://pokeapi.co/api/v2/pokemon";
 let fetchPath = '';
 let fetchUrl = '';
+let fetchQty = 20;
+let fetchIndexStart = 0;
+let fetchIndexEnd = 0;
+let renderCall = 0;
 
-function init() {
-    renderListing(16);
+async function init() {
+    await fetchAllItems(100);
+    renderListing();
+    // let searchInput = document.getElementById('searchInput').value;
+    // console.log(searchInput);
+    //renderListing(0, 'fsjldfkjs');
 }
 
-async function renderListing(renderQty) {
-    items = await fetchItems(renderQty);
+async function fetchData(fetchUrl, objProp = null) {
+    let response = await fetch(fetchUrl);
+    let fetchedData = await response.json();
+    // console.log(fetchedData);
+    if(objProp) {
+        return fetchedData[objProp];
+    }
+    return fetchedData;
+}
+
+async function fetchAllItems(renderQty) {
+    fetchUrl = fetchBaseUrl + '/?limit=' + renderQty + '&offset=0';
+    allItems = await fetchData(fetchUrl, 'results');
+    totalItems = allItems.length;
+}
+
+async function renderListing() {
     let listingRef = document.getElementById('listing');
-    listingRef.innerHTML = '';
+    setRenderCallParam(listingRef);
+    console.log(fetchIndexStart + ' / ' + fetchIndexEnd + ' / ' + fetchQty);
+    renderedItems = allItems.slice(0, fetchIndexEnd + 1);
+    items = renderedItems.slice(fetchIndexStart, fetchIndexEnd + 1);
+    await renderItems(listingRef, items, fetchQty, fetchIndexStart - 1);
+    document.getElementById('loadMore').style = buttonStyle;
+}
+
+async function renderItems(listingRef, items, fetchQty, indexFull) {
+    document.getElementById('loadMore').style = '';
     if(items) {
-        for (let i = 0; i < items.length; i++) {
+        for (let i = 0; i < fetchQty; i++) {
             itemData = await fetchData(items[i].url);
             let speciesData = await fetchData(itemData.species.url);
-            listingRef.innerHTML += getListingItemTemplate(i, itemData, speciesData);
-            renderTypes(i, itemData.types, 'cardItemTypesWrapper-' + i);
+            indexFull++;
+            listingRef.innerHTML += getListingItemTemplate(itemData, speciesData, indexFull);
+            renderItemTypes(itemData.types, 'cardItemTypesWrapper-' + indexFull);
         }
     }
 }
 
-async function renderTypes(i, types, element) {
+async function renderItemTypes(types, element) {
     let typesWrapperRef = document.getElementById(element);
     typesWrapperRef.innerHTML = '';
     if(types) {
         for (let i = 0; i < types.length; i++) {
             fetchUrl = types[i].type.url;
             let typesData = await fetchData(fetchUrl);
-            typesWrapperRef.innerHTML += getTypesTemplate(i, typesData);
+            typesWrapperRef.innerHTML += getTypesTemplate(typesData);
         }
     }
 }
+
+function setRenderCallParam(listingRef) {
+    document.getElementById('loadMore').style = buttonStyle;
+    renderCall = renderCall + 1;
+    if(renderCall <= 1) {
+        listingRef.innerHTML = '';
+        fetchIndexStart = 0;
+    } else {
+        fetchIndexStart = fetchIndexEnd + 1;
+    }
+    fetchIndexEnd = fetchIndexStart + fetchQty - 1;
+    if(fetchIndexEnd >= totalItems - 1) {
+        fetchIndexEnd = totalItems - 1;
+        fetchQty = fetchIndexEnd - fetchIndexStart + 1;
+        buttonStyle = 'display: none;'
+    } else {
+        buttonStyle = '';
+    }
+}
+
+// function checkSetIndexEnd() {
+//     document.getElementById('loadMore').style = '';
+//     fetchIndexEnd = fetchIndexStart + fetchQty - 1;
+//     if(fetchIndexEnd > totalItems - 1) {
+//         fetchQty = fetchIndexEnd - totalItems - 1;
+//         fetchIndexEnd = totalItems - 1;
+//         document.getElementById('loadMore').style = 'display: none;';
+//     }
+// }
+
+// async function renderListingSearch(startItem, searchInput=null) {
+//     let listingRef = document.getElementById('listing');
+//     listingRef.innerHTML = '';
+//     if(searchInput) {
+//         // items = allItems;
+//         items = allItems.filter(item => item.name.includes(searchInput));
+//         await renderItems(listingRef, items, fetchIndexStart, fetchIndexEnd);
+//     }
+// }
 
 function openItemModal(i) {
     renderModalItem(i);
@@ -71,7 +133,7 @@ function nextModalItem(i, iLast) {
 }
 
 async function renderModalItem(i) {
-    // console.log('current i: ' + i);
+    console.log('current i: ' + i);
     itemData = await fetchData(items[i].url);
     let speciesData = await fetchData(itemData.species.url);
     document.getElementById('itemModal').style = '';
@@ -84,22 +146,6 @@ function closeItemModal() {
     document.getElementById('itemModal').style = 'display: none';
     document.getElementById('itemModalInner').innerHTML = '';
     document.body.style = '';
-}
-
-function fetchItems(renderQty) {
-    fetchPath = '/?limit=' + renderQty + '&offset=0'
-    fetchUrl = fetchBaseUrl + fetchPath;
-    return items = fetchData(fetchUrl, 'results');
-}
-
-async function fetchData(fetchUrl, objProp = null) {
-    let response = await fetch(fetchUrl);
-    let fetchedData = await response.json();
-    // console.log(fetchedData);
-    if(objProp) {
-        return fetchedData[objProp];
-    }
-    return fetchedData;
 }
 
 function firstLetterUppercase(word) {

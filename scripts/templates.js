@@ -1,4 +1,4 @@
-function getListingItemTemplate(i, itemData, speciesData) {
+function getListingItemTemplate(itemData, speciesData, indexFull) {
     let itemID = itemData.id;
     let itemName = firstLetterUppercase(itemData.name);
     let itemDescription = speciesData.flavor_text_entries[0].flavor_text;
@@ -6,7 +6,7 @@ function getListingItemTemplate(i, itemData, speciesData) {
     let itemColor = speciesData.color.name;
 
     return `
-        <div class="item-card card-landscape bg-${itemColor}" onclick="openItemModal(${i})" style="background-color: ${itemColor}">
+        <div class="item-card card-landscape bg-${itemColor}" onclick="openItemModal(${indexFull})" style="background-color: ${itemColor}">
             <div class="img-wrapper flex-col pos-relative">
                 <img src="${itemImg}" alt="" class="img-contain expand xpos-absolute">
             </div>
@@ -16,13 +16,13 @@ function getListingItemTemplate(i, itemData, speciesData) {
                     <span class="id">#${itemID}</span>
                 </a>
                 <p class="description">${itemDescription}</p>
-                <div id="cardItemTypesWrapper-${i}" class="types-wrapper flex-row gap-05"></div>
+                <div id="cardItemTypesWrapper-${indexFull}" class="types-wrapper flex-row gap-05"></div>
             </div>
         </div>
     `;
 }
 
-function getTypesTemplate(i, typesData) {
+function getTypesTemplate(typesData) {
     let typeName = typesData.name;
     let typeIndex = typeColors.findIndex(type => type.type == typeName);
     typeName = firstLetterUppercase(typeName);

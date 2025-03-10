@@ -15,11 +15,16 @@
 <body onload="init()">
 
     <header class="section">
-       <div class="ct-container py-20">
-            <div class="logo-wrapper flex-row gap align-center">
+       <div class="ct-container flex-row gap justify-between py-20">
+            <div class="logo-wrapper flex-row gap align-center flex-grow">
                 <a href="#" class="logo-wrapper"><img src="assets/img/logo-goninski.png" alt="logo-goninski" class="logo logo-goninski"></a>
                 <div class="logo-text flex-col">
                     <h1 class="logo-title">Pokedex</h1>
+                </div>
+            </div>
+            <div class="search-input-wrapper flex-col flex-grow">
+                <label for="searchInput" class="mb-05">Suche :</label>
+                <input type="text" id="searchInput" name="searchInput">
                 </div>
             </div>
        </div>
@@ -29,7 +34,8 @@
         <section>
 
             <div id="listing" class="ct-container grid-auto gap-20"></div>
-           
+            <button id="loadMore" class="btn mt-30" onclick="renderListing()">Load More</button>
+
         </section>
 
     </main>
