@@ -23,17 +23,20 @@
                 </div>
             </div>
             <div class="search-input-wrapper flex-col flex-grow">
-                <input type="text" id="searchInput" name="searchInput" placeholder="charmander" oninput="liveSearch()">
+                <input type="text" id="searchInput" name="searchInput" placeholder="charmander" oninput="validateSearchInput()">
                 </div>
             </div>
        </div>
     </header>
 
     <main>
-        <section>
+        <section class="flex-col center">
 
             <div id="listing" class="ct-container grid-auto gap-20"></div>
-            <button id="loadMore" class="btn mt-30" onclick="loadMoreItems()">Load More</button>
+            <button id="loadMore" class="btn mt-30" onclick="loadListing('load-more')">Load More</button>
+            <div id="spinnerWrapper" class="spinner-wrapper" style="display: none;">
+                <div class="loading-spinner"></div>
+            </div>
 
         </section>
 

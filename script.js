@@ -5,7 +5,6 @@ let fetchQty = 0;
 let fetchIndexStart = 0;
 let fetchIndexEnd = 0;
 let renderCall = 1;
-let renderType = 'all';
 let buttonStyle = 'display: none;';
 
 let allItems = [];
@@ -16,8 +15,8 @@ let items = [];
 let totalPoolItems = 0;
 
 async function init() {
-    await fetchAllItems(9999);
-    renderListing();
+    await fetchAllItems(99999);
+    loadListing();
 }
 
 async function fetchAllItems(renderQty) {
@@ -32,7 +31,6 @@ async function fetchData(fetchUrl, objProp = null) {
             throw new Error("Fetching not possible! (Status: " + response.status + ")");
         }
         let fetchedData = await response.json();
-        // console.log(fetchedData);
         if(objProp) {
             return fetchedData[objProp];
         }
@@ -43,63 +41,57 @@ async function fetchData(fetchUrl, objProp = null) {
     }
 }
 
-function liveSearch() {
+function getSearchInput() {
     let searchInputRef = document.getElementById('searchInput');
-    let searchVal = searchInputRef.value;
+    return searchVal = searchInputRef.value;
+}
+
+function validateSearchInput() {
+    let searchVal = getSearchInput();
     if(searchVal.length >= 3) {
-        renderCall = 0;
-        renderType = 'search';
-        renderListing(searchVal);
+        return loadListing('search', searchVal);
     }
-    else if(searchVal == '') {
-        renderType = 'all';
-        renderListing();
+    if(searchVal == '') {
+        return loadListing();
     }
 }
 
-function loadMoreItems() {
-    let searchInputRef = document.getElementById('searchInput');
-    let searchVal = searchInputRef.value;
-    renderCall++;
-    if(searchVal) {
-        renderType = 'search';
-        renderListing(searchVal);
-    } else {
-        renderType = 'all';
-        renderListing();
+async function loadListing(source='initial', searchVal=null) {
+    switch(source) {
+        case "search":
+            renderCall = 1;
+            return renderListing(source, searchVal);
+        case "load-more":
+            renderCall++;
+            break;
     }
+    searchVal = getSearchInput();
+    await renderListing(source, searchVal);
 }
 
-async function renderListing(searchVal=null) {
+async function renderListing(source, searchVal) {
     let listingRef = document.getElementById('listing');
     let loadMoreBtnRef = document.getElementById('loadMore');
     loadMoreBtnRef.style = buttonStyle;
-    setItemPool(searchVal);
+    setItemPool(source, searchVal);
     setIndexStart(listingRef);
     setIndexEnd();
-    // console.log('b): ' + fetchIndexStart + ' / ' + fetchIndexEnd + ' / ' + fetchQty);
+   console.log('b): ' + fetchIndexStart + ' / ' + fetchIndexEnd + ' / ' + fetchQty);
     renderedItems = itemPool.slice(0, fetchIndexEnd + 1);
+   console.log(renderedItems);
     items = renderedItems.slice(fetchIndexStart, fetchIndexEnd + 1);
+   console.log(items);
     await renderItems(listingRef, items, fetchQty, fetchIndexStart - 1);
     loadMoreBtnRef.style = buttonStyle;
 }
 
-async function setItemPool(searchVal) {
+function setItemPool(source, searchVal) {
     itemPool = allItems;
+    if(source == 'search') {
+        filteredItems = allItems.filter(item => item.name.includes(searchVal));
+        itemPool = filteredItems;
+    }
     totalPoolItems = itemPool.length;
-    if(renderType == 'search') {
-        filteredItems = allItems.filter(item => item.name.includes(searchVal));
-        itemPool = filteredItems;
-    }
-}
-
-async function setRenderPresets(searchVal=null) {
-    itemPool = allItems;
-    if(renderType == 'search') {
-        filteredItems = allItems.filter(item => item.name.includes(searchVal));
-        itemPool = filteredItems;
-    }
-    await renderListing();
 }
 
 function setIndexStart(listingRef) {
