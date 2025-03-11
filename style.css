@@ -123,6 +123,10 @@ header .logo {
 #loadMore:hover {
     background-color: violet;
 }
+#loadMore[disabled] {
+    background-color: pink;
+    cursor: auto;
+}
 
 .spinner-wrapper {
     position: fixed;

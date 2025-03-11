@@ -5,7 +5,7 @@ let fetchQty = 0;
 let fetchIndexStart = 0;
 let fetchIndexEnd = 0;
 let renderCall = 1;
-let buttonStyle = 'display: none;';
+let buttonStyle = '';
 
 let allItems = [];
 let filteredItems = [];
@@ -15,7 +15,7 @@ let items = [];
 let totalPoolItems = 0;
 
 async function init() {
-    await fetchAllItems(99999);
+    await fetchAllItems(9999);
     loadListing();
 }
 
@@ -74,18 +74,17 @@ async function loadListing(source='initial') {
 
 async function renderListing(source, searchVal) {
     let listingRef = document.getElementById('listing');
-    let loadMoreBtnRef = document.getElementById('loadMore');
-    loadMoreBtnRef.style = buttonStyle;
     setItemPool(source, searchVal);
     setIndexStart(listingRef);
     setIndexEnd();
-   console.log('b): ' + fetchIndexStart + ' / ' + fetchIndexEnd + ' / ' + fetchQty);
+//    console.log('b): ' + fetchIndexStart + ' / ' + fetchIndexEnd + ' / ' + fetchQty);
     renderedItems = itemPool.slice(0, fetchIndexEnd + 1);
-   console.log(renderedItems);
+//    console.log(renderedItems);
     items = renderedItems.slice(fetchIndexStart, fetchIndexEnd + 1);
-   console.log(items);
+//    console.log(items);
+    setLoadingAnim('before');
     await renderItems(listingRef, items, fetchQty, fetchIndexStart - 1);
-    loadMoreBtnRef.style = buttonStyle;
+    setLoadingAnim('after');
 }
 
 function setItemPool(source, searchVal) {
@@ -115,6 +114,7 @@ function setIndexEnd() {
     fetchIndexEnd = fetchIndexStart + fetchQty - 1;
     if(totalPoolItems <= 0) {
         fetchIndexEnd = 0;
+        buttonStyle = 'display: none;'
     } else if(fetchIndexEnd >= totalPoolItems - 1) {
         fetchIndexEnd = totalPoolItems - 1;
         buttonStyle = 'display: none;'
@@ -124,8 +124,21 @@ function setIndexEnd() {
     }
 }
 
+async function setLoadingAnim(moment) {
+    let loadMoreBtnRef = document.getElementById('loadMore');
+    let spinnerRef = document.getElementById('spinnerWrapper');
+    if(moment == 'before') {
+        loadMoreBtnRef.style = buttonStyle;
+        loadMoreBtnRef.disabled = true;
+        spinnerRef.style = '';
+    } else {
+        loadMoreBtnRef.style = buttonStyle;
+        loadMoreBtnRef.disabled = false;
+        spinnerRef.style = 'display: none;';
+    }
+}
+
 async function renderItems(listingRef, items, fetchQty, indexFull) {
-    document.getElementById('loadMore').style = '';
     if(items) {
         for (let i = 0; i < fetchQty; i++) {
             itemData = await fetchData(items[i].url);
@@ -167,13 +180,13 @@ function previousModalItem(i, iLast) {
     if(i <= 0) {
         i = iLast;
     } else {
-        i = i - 1;
+        i--;
     }
     renderModalItem(i);
 }
 
 function nextModalItem(i, iLast) {
-    if(i == iLast - 1) {
+    if(i == iLast) {
         i = 0;
     } else {
         i++;

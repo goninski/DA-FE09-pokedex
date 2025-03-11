@@ -67,10 +67,10 @@ function getModalInnerTemplate(i, itemData, speciesData, iLast) {
             </div>
 
         <div class="modal-nav-wrapper flex-row gap center">
-            <button id="previousModalItem" class="modal-next-prev modal-prev" onclick="previousModalItem(${i}, ${iLast})">
+            <button id="previousModalItem" class="modal-next-prev modal-prev" onclick="previousModalItem(${i}, ${iLast})" title="previous Pokemon">
                 <img src="assets/icons/google-arrow-back-ios-white.svg" alt="previous-icon">
             </button>
-            <button id="nextModalItem" class="modal-next-prev modal-next" onclick="nextModalItem(${i}, ${iLast})">
+            <button id="nextModalItem" class="modal-next-prev modal-next" onclick="nextModalItem(${i}, ${iLast})" title="next Pokemon">
                 <img src="assets/icons/google-arrow-forward-ios-white.svg" alt="next-icon">
             </button>
         </div>
