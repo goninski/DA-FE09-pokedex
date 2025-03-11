@@ -1,14 +1,6 @@
-let allItems = [];
-let filteredItems = [];
-let itemPool = [];
-let totalPoolItems = 0;
-let renderedItems = [];
-let items = [];
-
 const fetchBaseUrl = "https://pokeapi.co/api/v2/pokemon";
-let fetchPath = '';
 let fetchUrl = '';
-let fetchQtyMax = 5;
+let fetchQtyMax = 20;
 let fetchQty = 0;
 let fetchIndexStart = 0;
 let fetchIndexEnd = 0;
@@ -16,9 +8,21 @@ let renderCall = 1;
 let renderType = 'all';
 let buttonStyle = 'display: none;';
 
+let allItems = [];
+let filteredItems = [];
+let itemPool = [];
+let renderedItems = [];
+let items = [];
+let totalPoolItems = 0;
+
 async function init() {
     await fetchAllItems(9999);
-    setRenderPresets();
+    renderListing();
+}
+
+async function fetchAllItems(renderQty) {
+    fetchUrl = fetchBaseUrl + '/?limit=' + renderQty + '&offset=0';
+    allItems = await fetchData(fetchUrl, 'results');
 }
 
 async function fetchData(fetchUrl, objProp = null) {
@@ -39,9 +43,18 @@ async function fetchData(fetchUrl, objProp = null) {
     }
 }
 
-async function fetchAllItems(renderQty) {
-    fetchUrl = fetchBaseUrl + '/?limit=' + renderQty + '&offset=0';
-    allItems = await fetchData(fetchUrl, 'results');
+function liveSearch() {
+    let searchInputRef = document.getElementById('searchInput');
+    let searchVal = searchInputRef.value;
+    if(searchVal.length >= 3) {
+        renderCall = 0;
+        renderType = 'search';
+        renderListing(searchVal);
+    }
+    else if(searchVal == '') {
+        renderType = 'all';
+        renderListing();
+    }
 }
 
 function loadMoreItems() {
@@ -50,60 +63,46 @@ function loadMoreItems() {
     renderCall++;
     if(searchVal) {
         renderType = 'search';
-        setRenderPresets(searchVal);
+        renderListing(searchVal);
     } else {
         renderType = 'all';
-        setRenderPresets();
+        renderListing();
     }
 }
 
-function liveSearch() {
-    let searchInputRef = document.getElementById('searchInput');
-    let searchVal = searchInputRef.value;
-    if(searchVal.length >= 3) {
-        renderCall = 0;
-        renderType = 'search';
-        setRenderPresets(searchVal);
-    }
-    else if(searchVal == '') {
-        renderType = 'all';
-        setRenderPresets();
-    }
-}
-
-async function setRenderPresets(searchVal=null) {
-    // renderType = 'search';
-    itemPool = allItems;
-    console.log(searchVal);
-    console.log(renderType);
-    if(renderType == 'search') {
-        filteredItems = allItems.filter(item => item.name.includes(searchVal));
-        // console.log(filteredItems);
-        itemPool = filteredItems;
-    }
-    // console.log(itemPool);
-    // console.log(itemPool.length);
-    await renderListing();
-}
-
-async function renderListing() {
+async function renderListing(searchVal=null) {
     let listingRef = document.getElementById('listing');
     let loadMoreBtnRef = document.getElementById('loadMore');
     loadMoreBtnRef.style = buttonStyle;
-    totalPoolItems = itemPool.length;
-    // console.log('items: ' + totalPoolItems);
+    setItemPool(searchVal);
     setIndexStart(listingRef);
     setIndexEnd();
+    // console.log('b): ' + fetchIndexStart + ' / ' + fetchIndexEnd + ' / ' + fetchQty);
     renderedItems = itemPool.slice(0, fetchIndexEnd + 1);
     items = renderedItems.slice(fetchIndexStart, fetchIndexEnd + 1);
     await renderItems(listingRef, items, fetchQty, fetchIndexStart - 1);
     loadMoreBtnRef.style = buttonStyle;
 }
 
+async function setItemPool(searchVal) {
+    itemPool = allItems;
+    totalPoolItems = itemPool.length;
+    if(renderType == 'search') {
+        filteredItems = allItems.filter(item => item.name.includes(searchVal));
+        itemPool = filteredItems;
+    }
+}
+
+async function setRenderPresets(searchVal=null) {
+    itemPool = allItems;
+    if(renderType == 'search') {
+        filteredItems = allItems.filter(item => item.name.includes(searchVal));
+        itemPool = filteredItems;
+    }
+    await renderListing();
+}
+
 function setIndexStart(listingRef) {
-    // console.log('a): ' + fetchIndexStart + ' / ' + fetchIndexEnd + ' / ' + fetchQty);
-    // renderCall++;
-    console.log('call: ' +  renderCall);
     fetchQty = fetchQtyMax;
     if(totalPoolItems <= 0) {
         listingRef.innerHTML = '';
@@ -128,7 +127,6 @@ function setIndexEnd() {
     } else {
         buttonStyle = '';
     }
-    // console.log('b): ' + fetchIndexStart + ' / ' + fetchIndexEnd + ' / ' + fetchQty);
 }
 
 async function renderItems(listingRef, items, fetchQty, indexFull) {
@@ -165,16 +163,6 @@ async function renderModalItem(i) {
     document.body.style = 'overflow: hidden;';
     renderItemTypes(itemData.types, 'modalItemTypesWrapper-' + i);
 }
-
-// async function renderListingSearch(startItem, searchInput=null) {
-//     let listingRef = document.getElementById('listing');
-//     listingRef.innerHTML = '';
-//     if(searchInput) {
-//         // items = allItems;
-//         items = allItems.filter(item => item.name.includes(searchInput));
-//         await renderItems(listingRef, items, fetchIndexStart, fetchIndexEnd);
-//     }
-// }
 
 function openItemModal(i) {
     renderModalItem(i);
