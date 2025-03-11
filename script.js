@@ -49,23 +49,26 @@ function getSearchInput() {
 function validateSearchInput() {
     let searchVal = getSearchInput();
     if(searchVal.length >= 3) {
-        return loadListing('search', searchVal);
+        return loadListing('search');
     }
     if(searchVal == '') {
         return loadListing();
     }
 }
 
-async function loadListing(source='initial', searchVal=null) {
+async function loadListing(source='initial') {
+    let searchVal = getSearchInput();
     switch(source) {
         case "search":
             renderCall = 1;
-            return renderListing(source, searchVal);
+            break;
         case "load-more":
             renderCall++;
+            if(searchVal.length >= 3) {
+                source = 'search';
+            }
             break;
     }
-    searchVal = getSearchInput();
     await renderListing(source, searchVal);
 }
 
