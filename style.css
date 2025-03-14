@@ -1,4 +1,4 @@
-@import url("assets/fonts/open-sans/fonts.css");
+@import url("assets/fonts/londrina-solid/fonts.css");
 @import url("styles/fw-presets.css");
 @import url("styles/fw-classes.css");
 /*@import url("node_modules\bootstrap\dist\css\bootstrap.min.css");*/
@@ -11,9 +11,11 @@
     --py-sec: 48px;
     --py-sec-sm: 24px;
     --p-card: 16px;
+    --min-w-col: 240px;
 
     /* --ff-text: "Raleway"; */
-    --ff-text: "Open Sans", serif;
+    /* --ff-text: "Open Sans", serif; */
+    --ff-text: "Londrina Solid", sans-serif;
     --ff-hd: var(--ff-text);
 
     --fs-text: 16px;
@@ -38,7 +40,7 @@
 }
 
 header {
-    background-color: var(--clr-primary);
+    /* background-color: var(--clr-primary); */
 }
 footer {
     background-color: #444;
@@ -55,29 +57,31 @@ header .logo {
     display: flex;
     flex-direction: column;
     background-color: #000;
-    /* border: solid 1px var(--clr-primary); */
+    border: solid 3px rgba(255,255,255,0.9);
     cursor: pointer;
 }
-.item-card.card-landscape {
-    flex-direction: row;
+.item-card-bg {
+    opacity: 0.66;
+    top:0;
+    left:0;
+    transition-duration: 350ms;
+}
+.item-card:hover .item-card-bg{
+    opacity: 1;
 }
 .item-card .img-wrapper {
-    aspect-ratio: 4/3;
-    overflow: hidden;
-    padding: 16px;
+    z-index: 1;
 }
-.item-card.card-landscape .img-wrapper {
-    aspect-ratio: 1;
+.item-card .img-wrapper img {
+    height: 100px;
 }
 .item-card .content-wrapper {
-    flex-shrink: 1.25;
+    z-index: 1;
 }
 .item-card .title {
     display: inline;
     margin-right: 16px;
-}
-.item-card .description {
-    font-size: 12px;
+    font-size: 1.4rem;
 }
 .types-wrapper  .type {
     border-radius: 50%;

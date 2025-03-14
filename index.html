@@ -15,7 +15,7 @@
 <body onload="init()">
 
     <header class="section">
-       <div class="ct-container flex-row gap justify-between py-20 align-center">
+       <div class="ct-container flex-row flex-wrap gap justify-between py-20 align-center">
             <div class="logo-wrapper flex-row gap align-center flex-grow">
                 <a href="#" class="logo-wrapper"><img src="assets/img/logo-goninski.png" alt="logo-goninski" class="logo logo-goninski"></a>
                 <div class="logo-text flex-col">
@@ -23,7 +23,7 @@
                 </div>
             </div>
             <div class="search-input-wrapper flex-col flex-grow">
-                <input type="text" id="searchInput" name="searchInput" placeholder="charmander" oninput="validateSearchInput()">
+                <input type="text" id="searchInput" name="searchInput" placeholder="Search for Pokemon Name" oninput="validateSearchInput()">
                 </div>
             </div>
        </div>
@@ -52,7 +52,7 @@
         </div>
     </footer>
 
-    <div id="itemModal" class="item-modal flex-col expand center" style="display: none;">
+    <div id="itemModal" class="item-modal flex-col expand center" style="display: none;" onclick="closeItemModal()">
         <div id="itemModalInner" class="modal-inner pos-relative"></div>
     </div>
 
