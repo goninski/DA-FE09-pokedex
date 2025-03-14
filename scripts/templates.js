@@ -47,23 +47,20 @@ function getModalInnerTemplate(i, itemData, speciesData, iLast) {
 
     return `
         <button id="itemModalClose" class="modal-close pos-absolute" onclick="closeItemModal()">
-            <img src="assets/icons/google-close-black.svg" alt="close-icon">
+            <img src="assets/icons/google-close-white.svg" alt="close-icon" title="close modal">
         </button>
 
         <div id="ModalItem" class="modal-item bg-${itemColor}" style="background-color: ${itemColor}" onclick="stopPropagation(event)">
             <div class="img-wrapper flex-col pos-relative">
                 <img src="${itemImg}" alt="" class="img-contain expand xpos-absolute">
             </div>
-            <div class="content-wrapper flex-col p-card">
-                <a href="#" class="card-link">
-                    <h3 class="title">${itemName}</h3>
-                    <span class="id">#${itemID}</span>
-                </a>
+            <div class="content-wrapper flex-col align-center text-center">
+                <h3 class="title">#${itemID}&emsp;${itemName}</h3>
                 <p class="description">${itemDescription}</p>
-                <div id="modalItemTypesWrapper-${i}" class="types-wrapper flex-row gap-05"></div>
+                <div id="modalItemTypesWrapper-${i}" class="types-wrapper flex-row gap-05 mt mb"></div>
             </div>
 
-        <div class="modal-nav-wrapper flex-row gap center">
+        <div class="modal-nav-wrapper flex-row gap-30 center mt">
             <button id="previousModalItem" class="modal-next-prev modal-prev" onclick="previousModalItem(event, ${i}, ${iLast})" title="previous Pokemon">
                 <img src="assets/icons/google-arrow-back-ios-white.svg" alt="previous-icon">
             </button>
