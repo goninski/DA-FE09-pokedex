@@ -15,12 +15,12 @@
 <body onload="init()">
 
     <header class="section">
-       <div class="ct-container header-inner flex-row gap justify-between py-20 align-center">
-            <div class="logo-wrapper flex-row gap align-center flex-grow">
+       <div class="ct-container header-inner flex-row gap justify-between align-center mt-10 mb-05">
+            <div class="logo-wrapper flex-col gap flex-grow">
                 <a href="./" class="logo-wrapper"><img src="assets/icons-pokemon/logo-pokemon.png" alt="logo-pokemon" class="logo"></a>
-                <!-- <div class="logo-text flex-col">
+                <div class="logo-text flex-col">
                     <h1 class="logo-title">Pokedex</h1>
-                </div> -->
+                </div>
             </div>
             <div class="search-input-wrapper flex-col">
                 <input type="text" id="searchInput" name="searchInput" placeholder="search for Pokemon (Name)" oninput="validateSearchInput()">
@@ -43,11 +43,16 @@
     </main>
 
     <footer class="section py-10">
-        <div class="ct-container align-center">
-            Testproject DA Frontend Masterclass&nbsp;| xx 2025 (in progress)
+        <div class="ct-container align-center text-center">
+            DA Frontend Masterclass</br>
+            Audit Project Modul 9 | March 2025</br>
+            (in progress)
             <div class="footer-links flex-row gap align-center mt-05">
-                <a href="https://github.com/goninski/" target="_blank">visit on GitHub</a>
+                <a href="https://github.com/goninski/DA-FE09-pokedex/" target="_blank">visit on GitHub</a>
                 <a href="/">Projects</a>
+            </div>
+            <div class="flex-col mt-05">
+                <a href="https://pokeapi.co/" target="_blank" class="fw-light">(data source: pokeapi.co)</a>
             </div>
         </div>
     </footer>

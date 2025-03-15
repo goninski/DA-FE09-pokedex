@@ -69,8 +69,11 @@
     width: 100%;
     height: 100%;
 }
-.text-center {
-    text-align: center;
+.min-w-100 {
+    min-width: 100%;
+}
+.max-w-100 {
+    max-width: 100%;
 }
 .hide {
     display: none !important;
@@ -89,6 +92,9 @@
 }
 
 /*** TYPOGRAPHY */
+.text-center {
+    text-align: center;
+}
 .fs-text {
     font-size: var(--fs-text);
 }
@@ -104,7 +110,15 @@
 .uppercase {
     text-transform: uppercase;
 }
-
+.fw-light {
+    font-weight: var(--fw-light);
+}
+.fw-regular {
+    font-weight: var(--fw-regular);
+}
+.fw-bold {
+    font-weight: var(--fw-bold);
+}
 
 
 /*** SECTION SPACING */
@@ -164,6 +178,9 @@
 .mt {
     margin-top: var(--sp-10);
 }
+.mt-0 {
+    margin-top: 0;
+}
 .mt-05 {
     margin-top: var(--sp-05);
 }
@@ -180,6 +197,9 @@
 .mb {
     margin-bottom: var(--sp-10);
 }
+.mb-0 {
+    margin-bottom: 0;
+}
 .mb-05 {
     margin-bottom: var(--sp-05);
 }
@@ -195,7 +215,7 @@
 
 /*** GAP */
 .gap {
-    gap: var(--sp-10);
+    gap: var(--gap);
 }
 .gap-05 {
     gap: var(--sp-05);
@@ -215,7 +235,7 @@
 
 /*** COL GAP */
 .col-gap {
-    column-gap: var(--sp-10);
+    column-gap: var(--gap);
 }
 .col-gap-05 {
     column-gap: var(--sp-05);
@@ -229,7 +249,7 @@
 
 /*** ROW GAP */
 .row-gap {
-    row-gap: var(--sp-10);
+    row-gap: var(--gap);
 }
 .row-gap-05 {
     row-gap: var(--sp-05);
@@ -242,7 +262,7 @@
 }
 
 
-/*** POSITIONS */
+/*** POSITIONS & MORE*/
 .pos-relative {
     position: relative;
 }
@@ -255,6 +275,41 @@
     top: 0; bottom: 0; left: 0; right: 0;
     background-color: var(--overlay);
 }
+.overflow-hidden {
+    overflow: hidden;
+}
+
+
+/*** X-SCROLLING ANIMATION SET */
+@keyframes scrolling {
+    to {
+        transform: translateX(calc(-100% - var(--gap)));
+    }
+}
+.x-scrolling-wrapper {
+    display: flex;
+    user-select: none;
+    max-width: 100%;
+    overflow: hidden;
+    gap: var(--gap);
+}
+.x-scrolling-wrapper:hover .x-scrolling-items {
+    animation-play-state: paused;
+}
+.x-scrolling-items {
+    animation: scrolling 100s linear infinite;
+    list-style: none;
+    display: flex;
+    flex-shrink: 0;
+    min-width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--gap);
+}
+.x-scrolling-item {
+    white-space: nowrap;
+}
+
 
 
 

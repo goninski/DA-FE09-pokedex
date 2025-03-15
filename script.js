@@ -157,6 +157,17 @@ async function renderItems(listingRef, items, fetchQty, indexFull) {
     }
 }
 
+async function renderModalItem(i) {
+    // console.log('current i: ' + i);
+    itemData = await fetchData(renderedItems[i].url);
+    let speciesData = await fetchData(itemData.species.url);
+    document.getElementById('itemModal').style = '';
+    document.getElementById('itemModalInner').innerHTML = getModalInnerTemplate(i, itemData, speciesData, renderedItems.length - 1);
+    document.body.style = 'overflow: hidden;';
+    await renderItemMoves(itemData.moves, 'modalItemMovesWrapper-' + i);
+    await renderItemTypes(itemData.types, 'modalItemTypesWrapper-' + i);
+}
+
 async function renderItemTypes(types, element) {
     let typesWrapperRef = document.getElementById(element);
     typesWrapperRef.innerHTML = '';
@@ -169,14 +180,18 @@ async function renderItemTypes(types, element) {
     }
 }
 
-async function renderModalItem(i) {
-    // console.log('current i: ' + i);
-    itemData = await fetchData(renderedItems[i].url);
-    let speciesData = await fetchData(itemData.species.url);
-    document.getElementById('itemModal').style = '';
-    document.getElementById('itemModalInner').innerHTML = getModalInnerTemplate(i, itemData, speciesData, renderedItems.length - 1);
-    document.body.style = 'overflow: hidden;';
-    renderItemTypes(itemData.types, 'modalItemTypesWrapper-' + i);
+async function renderItemMoves(moves, element) {
+    let movesWrapperRef = document.getElementById(element);
+    let movesWrapperRefDupl = document.getElementById(element + '-Dupl');
+    movesWrapperRef.innerHTML = '';
+    movesWrapperRefDupl.innerHTML = '';
+    if(moves) {
+        for (let i = 0; i < moves.length; i++) {
+            let movesData = moves[i].move;
+            movesWrapperRef.innerHTML += getMovesTemplate(movesData, i);
+            movesWrapperRefDupl.innerHTML += getMovesTemplate(movesData, i);
+        }
+    }
 }
 
 function openItemModal(i) {

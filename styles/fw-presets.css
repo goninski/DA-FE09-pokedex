@@ -15,6 +15,7 @@
     --sp-70: 96px;
     --sp-80: 120px;
     --sp-90: 150px;
+    --gap: var(--sp-10);
 
     --min-w-col: 300px;
     --icon-multipl: 1;
@@ -148,15 +149,6 @@ a, button, .btn {
 }
 
 /*** ANIMATIONS */
-@keyframes scrolling {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(-100%);
-    }
-}
-
 @keyframes spin {
     to {
         transform: rotate(360deg);

@@ -38,13 +38,17 @@
     --bg-page: #000;
     --clr-primary: #ef5350;
     --clr-primary-subtle: #f48c8a;
+    --clr-secondary: #feca1b;
 }
 
 header {
     /* background-color: var(--clr-primary); */
+    /* background-color: var(--clr-secondary); */
+    background-color: #222;
 }
 footer {
-    background-color: #111;
+    background-color: #222;
+    /* background-color: var(--clr-secondary); */
 }
 footer, footer a {
     color: var(--clr-primary);
@@ -53,7 +57,16 @@ footer a:hover {
     color: rgba(255,255,255,0.8);
 }
 header .logo {
-    height: 80px;
+    height: 72px;
+    rotate: -7.5deg;
+}
+header .logo-text {
+    margin-top: -2.25rem;
+    margin-left: 6rem;
+}
+header h1 {
+    font-size: 1.5rem;
+    color: var(--clr-primary)
 }
 
 #searchInput[type="text"] {
@@ -87,7 +100,7 @@ header .logo {
     color: #333;
 }
 .bg-yellow {
-    background-color: #dbdb85 !important;
+    background-color: var(--clr-secondary) !important;
     color: #333;
 }
 
@@ -164,9 +177,6 @@ header .logo {
     border-radius: 24px;
     border: solid 4px rgba(255,255,255,0.9);
 }
-.modal-nav-wrapper {
-    /* padding: 24px; */
-}
 
 
 #loadMore {
@@ -223,5 +233,8 @@ header .logo {
     .item-modal .description {
         font-size: 1rem;
         /* min-height: 116px; */
+    }
+    .item-modal .props-wrapper {
+        font-size: 0.9rem;
     }
 }
