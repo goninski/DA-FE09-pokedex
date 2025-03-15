@@ -48,18 +48,18 @@ function getModalInnerTemplate(i, itemData, speciesData, iLast) {
                     <li>Base Experience: ${itemExperience}</li>
                 </ul>
                 <h5 class"moves-title">Moves:</h5> 
-                <div class="x-scrolling-wrapper mt-05">
-                    <ul id="modalItemMovesWrapper-${i}" class="moves-wrapper x-scrolling-items"></ul>
-                    <ul id="modalItemMovesWrapper-${i}-Dupl" class="moves-wrapper x-scrolling-items" aria-hidden="true"></ul>
+                <div id="modalItemMovesWrapper" class="x-scrolling-wrapper mt-05">
+                    <ul id="modalItemMovesListing-${i}" class="moves-listing x-scrolling-items"></ul>
+                    <ul id="modalItemMovesListing-${i}-Dupl" class="moves-listing x-scrolling-items" aria-hidden="true"></ul>
                 </div>
                 <div id="modalItemTypesWrapper-${i}" class="types-wrapper flex-row gap-05 mt mb"></div>
             </div>
 
         <div class="modal-nav-wrapper flex-row gap-30 center mt-05">
-            <button id="previousModalItem" class="modal-next-prev modal-prev" onclick="previousModalItem(event, ${i}, ${iLast})" title="previous Pokemon">
+            <button id="previousModalItem" class="modal-nav modal-prev" onclick="previousModalItem(event, ${i}, ${iLast})" title="previous Pokemon">
                 <img src="assets/icons/google-arrow-back-ios-white.svg" alt="previous-icon">
             </button>
-            <button id="nextModalItem" class="modal-next-prev modal-next" onclick="nextModalItem(event, ${i}, ${iLast})" title="next Pokemon">
+            <button id="nextModalItem" class="modal-nav modal-next" onclick="nextModalItem(event, ${i}, ${iLast})" title="next Pokemon">
                 <img src="assets/icons/google-arrow-forward-ios-white.svg" alt="next-icon">
             </button>
         </div>

@@ -23,7 +23,7 @@
                 </div>
             </div>
             <div class="search-input-wrapper flex-col">
-                <input type="text" id="searchInput" name="searchInput" placeholder="search for Pokemon (Name)" oninput="validateSearchInput()">
+                <input type="text" id="searchInput" name="searchInput" placeholder="search for Pokemon (Name)" oninput="validateSearchInput(event)" title="min. 3 character">
                 </div>
             </div>
        </div>
@@ -32,7 +32,7 @@
     <main>
         <section class="flex-col center">
 
-            <div id="listing" class="ct-container grid-auto gap-20"></div>
+            <div id="listing" class="ct-container grid-auto-max justify-center gap"></div>
             <button id="loadMore" class="btn mt-30" onclick="loadListing('load-more')" style="display: none;">Load More</button>
             <div id="spinnerWrapper" class="spinner-wrapper" style="display: none;">
                 <div class="loading-spinner"></div>
@@ -46,7 +46,6 @@
         <div class="ct-container align-center text-center">
             DA Frontend Masterclass</br>
             Audit Project Modul 9 | March 2025</br>
-            (in progress)
             <div class="footer-links flex-row gap align-center mt-05">
                 <a href="https://github.com/goninski/DA-FE09-pokedex/" target="_blank">visit on GitHub</a>
                 <a href="/">Projects</a>

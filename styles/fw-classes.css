@@ -2,7 +2,12 @@
 
 .grid-auto {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(var(--min-w-col), 100%), 1fr));
+    /* grid-template-columns: repeat(auto-fit, minmax(min(var(--min-w-col), 100%), 1fr)); */
+    grid-template-columns: repeat(auto-fit, var(--min-w-col));
+}
+.grid-auto-max {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, var(--min-w-col));
 }
 .flex {
     display: flex;
@@ -297,7 +302,7 @@
     animation-play-state: paused;
 }
 .x-scrolling-items {
-    animation: scrolling 100s linear infinite;
+    animation: scrolling var(--anim-speed) linear infinite;
     list-style: none;
     display: flex;
     flex-shrink: 0;

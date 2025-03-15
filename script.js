@@ -5,13 +5,12 @@ let fetchQty = 0;
 let fetchIndexStart = 0;
 let fetchIndexEnd = 0;
 let renderCall = 1;
-let buttonStyle = '';
+let loadMoreStyle = '';
 
 let fetchedItems = [];
 let filteredItems = [];
 let itemPool = [];
 let renderedItems = [];
-// let items = [];
 let itemsToRender = [];
 let totalPoolItems = 0;
 
@@ -47,21 +46,24 @@ function getSearchInput() {
     return searchVal = searchInputRef.value.toLowerCase();
 }
 
-function validateSearchInput() {
+async function validateSearchInput(event) {
     let searchVal = getSearchInput();
+    renderCall = 1;
     if(searchVal.length >= 3) {
-        return loadListing('search');
+        return await loadListing('search');
     }
-    if(searchVal == '') {
-        return loadListing();
+    if(searchVal.length > 0) {
+        document.getElementById('listing').innerHTML = '';
+        document.getElementById('loadMore').style = 'display: none;';
+        return;
     }
+    return await loadListing();
 }
 
 async function loadListing(source='initial') {
     let searchVal = getSearchInput();
     switch(source) {
         case "search":
-            renderCall = 1;
             break;
         case "load-more":
             renderCall++;
@@ -78,11 +80,8 @@ async function renderListing(source, searchVal) {
     setItemPool(source, searchVal);
     setIndexStart(listingRef);
     setIndexEnd();
-//    console.log('b): ' + fetchIndexStart + ' / ' + fetchIndexEnd + ' / ' + fetchQty);
     renderedItems = itemPool.slice(0, fetchIndexEnd + 1);
-//    console.log(renderedItems);
     itemsToRender = renderedItems.slice(fetchIndexStart, fetchIndexEnd + 1);
-//    console.log(items);
     setLoadingAnim('before');
     await renderItems(listingRef, itemsToRender, fetchQty, fetchIndexStart - 1);
     setLoadingAnim('after');
@@ -115,33 +114,33 @@ function setIndexEnd() {
     fetchIndexEnd = fetchIndexStart + fetchQty - 1;
     if(totalPoolItems <= 0) {
         fetchIndexEnd = 0;
-        buttonStyle = 'display: none;'
+        loadMoreStyle = 'display: none;'
     } else if(fetchIndexEnd >= totalPoolItems - 1) {
         fetchIndexEnd = totalPoolItems - 1;
-        buttonStyle = 'display: none;'
+        loadMoreStyle = 'display: none;'
         fetchQty = fetchIndexEnd - fetchIndexStart + 1;
     } else {
-        buttonStyle = '';
+        loadMoreStyle = '';
     }
 }
 
 function setLoadingAnim(moment) {
     let loadMoreBtnRef = document.getElementById('loadMore');
     let spinnerRef = document.getElementById('spinnerWrapper');
-    loadMoreBtnRef.style = buttonStyle;
+    loadMoreBtnRef.style = loadMoreStyle;
     if(moment == 'before') {
         loadMoreBtnRef.disabled = true;
         spinnerRef.style = '';
     } else {
         loadMoreBtnRef.disabled = false;
         spinnerRef.style = 'display: none;';
-        setLoadingAutoScroll();
+        scrollToNewLoaded();
     }
 }
 
-function setLoadingAutoScroll() {
+function scrollToNewLoaded() {
     if(renderCall > 1) {
-        window.scrollBy(0, (window.innerHeight * 0.5));
+        window.scrollBy(0, window.innerHeight - 580);
     }
 }
 
@@ -158,13 +157,12 @@ async function renderItems(listingRef, items, fetchQty, indexFull) {
 }
 
 async function renderModalItem(i) {
-    // console.log('current i: ' + i);
     itemData = await fetchData(renderedItems[i].url);
     let speciesData = await fetchData(itemData.species.url);
     document.getElementById('itemModal').style = '';
     document.getElementById('itemModalInner').innerHTML = getModalInnerTemplate(i, itemData, speciesData, renderedItems.length - 1);
     document.body.style = 'overflow: hidden;';
-    await renderItemMoves(itemData.moves, 'modalItemMovesWrapper-' + i);
+    await renderItemMoves(itemData.moves, 'modalItemMovesListing-' + i);
     await renderItemTypes(itemData.types, 'modalItemTypesWrapper-' + i);
 }
 
@@ -182,16 +180,16 @@ async function renderItemTypes(types, element) {
 
 async function renderItemMoves(moves, element) {
     let movesWrapperRef = document.getElementById(element);
-    let movesWrapperRefDupl = document.getElementById(element + '-Dupl');
     movesWrapperRef.innerHTML = '';
-    movesWrapperRefDupl.innerHTML = '';
     if(moves) {
         for (let i = 0; i < moves.length; i++) {
             let movesData = moves[i].move;
             movesWrapperRef.innerHTML += getMovesTemplate(movesData, i);
-            movesWrapperRefDupl.innerHTML += getMovesTemplate(movesData, i);
         }
     }
+    document.getElementById(element + '-Dupl').innerHTML = movesWrapperRef.innerHTML;
+    let animSpeed = (movesWrapperRef.offsetWidth / 40) + 's';
+    document.getElementById('modalItemMovesWrapper').style = '--anim-speed: ' + animSpeed + ';';
 }
 
 function openItemModal(i) {
