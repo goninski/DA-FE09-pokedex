@@ -71,10 +71,10 @@ function getModalInnerTemplate(i, itemData, speciesData, iLast) {
 
 function getTypesTemplate(typesData) {
     let typeName = typesData.name;
+    let typeIcon = 'assets/icons-pokemon/' + typeName + '.svg';
     let typeIndex = typeColors.findIndex(type => type.type == typeName);
     typeName = firstLetterUppercase(typeName);
     let typeColor = typeColors[typeIndex].color;
-    let typeIcon = 'assets/icons-pokemon/' + typeName + '.svg';
     return `
         <div class="type bg-${typeColor}" style="background-color: #${typeColor};">
             <img src="${typeIcon}" alt="" class="type-icon expand" title="${typeName} Type">
